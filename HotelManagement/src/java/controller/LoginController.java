@@ -5,6 +5,7 @@
 
 package controller;
 
+import dal.AccountDBContext;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -69,16 +70,16 @@ public class LoginController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        String userid = req.getParameter("userid");
-        String password = req.getParameter("password");
+        String userid = request.getParameter("userid");
+        String password = request.getParameter("password");
         AccountDBContext db = new AccountDBContext();
         Account account = db.getAccountByUsernamePassword(userid, password);
         if(account == null)
-            resp.getWriter().println("login failed!");
+            response.getWriter().println("login failed!");
         else
         {
-            req.getSession().setAttribute("account", account);
-            resp.getWriter().println("login successful!");
+            request.getSession().setAttribute("account", account);
+            response.getWriter().println("login successful!");
         }
     }
 
